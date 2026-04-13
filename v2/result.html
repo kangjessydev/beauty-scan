@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#FEFBF7" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>Hasil Diagnosis — BeautyScan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="chat.css" />
+</head>
+<body class="page-fade-in">
+  <!-- Custom Cursor -->
+  <div class="cursor-ring"></div>
+  <div class="cursor-dot"></div>
+
+  <div id="resultsView" class="report-container">
+    
+    <!-- Sidebar / Patient Info (Static but Premium) -->
+    <aside class="report-sidebar">
+      <div class="sidebar-header" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+        <div class="logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-main)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          <span>BeautyScan</span>
+        </div>
+        <div class="coin-badge" style="padding: 6px 12px; font-size: 0.85rem;">
+           <span class="coin-icon">🪙</span>
+           <span class="userCoins">50</span>
+        </div>
+      </div>
+      
+      <div class="sidebar-user">
+        <div class="user-avatar-wrap">
+           <div class="avatar-placeholder">AI</div>
+        </div>
+        <div class="user-meta">
+          <span class="meta-label">ID Pasien</span>
+          <span class="meta-value">BS-88910-X</span>
+        </div>
+        <div class="user-meta">
+          <span class="meta-label">Tanggal Analisis</span>
+          <span class="meta-value" id="scanTimestamp">Memuat...</span>
+        </div>
+      </div>
+
+      <nav class="report-nav">
+        <a href="#results" class="active">Pencitraan Biometrik</a>
+        <a href="#detailed-analysis">Detail Temuan Klinis</a>
+        <a href="#recommendations">Resep Skincare AI</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="index.html" class="btn-re-scan">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Analisis Ulang
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Report Content -->
+    <main class="report-main">
+      <header class="report-header">
+        <div class="header-content">
+          <span class="badge-status">Siap Menuju Glowing ✨</span>
+          <h1>Halo, Cantik! Ini Rahasia Kulitmu.</h1>
+          <p>Laporan personal yang membantu kamu memahami kondisi kulit dan menemukan perawatan yang paling tepat.</p>
+        </div>
+        <div class="header-action">
+          <button class="btn-print" onclick="window.print()">Cetak PDF</button>
+        </div>
+      </header>
+
+      <section id="results" class="section-card hero-diagnostic">
+        <div class="diagnostic-grid">
+          <div class="visual-pane">
+            <div class="annotated-wrap">
+              <img id="resultImg" src="" alt="Skin analysis" class="result-photo" />
+              <div class="annotation-dot dot-1" data-id="0"><span class="dot-pulse"></span></div>
+              <div class="annotation-dot dot-2" data-id="1"><span class="dot-pulse"></span></div>
+              <div class="annotation-dot dot-3" data-id="2"><span class="dot-pulse"></span></div>
+              <div class="annotation-dot dot-4" data-id="3"><span class="dot-pulse"></span></div>
+            </div>
+            <div class="image-label">Visualisasi Pemetaan Epidermis</div>
+          </div>
+          <div class="insight-pane">
+            <div class="insight-status-wrap">
+              <span class="insight-small-label">Indikator Utama</span>
+              <h2 id="primaryStatus">Menganalisis...</h2>
+              <div class="condition-badge" id="conditionBadge">Normal</div>
+            </div>
+            <div class="insight-description">
+              <p id="primaryDesc">Sistem AI sedang merekapitulasi data biologis Anda...</p>
+            </div>
+            
+            <div class="skin-metrics-bar">
+               <div class="metric-item">
+                 <div class="metric-label">Health Score</div>
+                 <div class="metric-track"><div class="metric-fill" style="width: 82%;"></div></div>
+                 <div class="metric-value">82%</div>
+               </div>
+                <div class="metric-item">
+                  <div class="metric-label">Kekuatan Skin Barrier</div>
+                  <div class="metric-track"><div class="metric-fill" style="width: 65%;"></div></div>
+                  <div class="metric-value">65%</div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="detailed-analysis" class="section-card">
+        <div class="section-header">
+          <h3>Apa yang Kulitmu Katakan</h3>
+          <p>Klik titik di atas foto wajahmu untuk melihat penjelasan detail tentang setiap area kulitmu.</p>
+        </div>
+        <div id="resultCardsContainer" class="results-cards-grid">
+          <!-- Dynamic Cards -->
+        </div>
+      </section>
+
+      <section id="recommendations" class="section-card recommendation-box">
+        <div class="section-header center">
+           <span class="badge-reco">Kurasi Khusus Untukmu</span>
+           <h2>Rekomendasi Skincare Personal</h2>
+           <p>Dipilihkan khusus berdasarkan kebutuhan nutrisi dan perlindungan unik kulitmu.</p>
+        </div>
+
+        <!-- Custom Filter -->
+        <div class="filter-bar" id="toggleWrap" style="display:none;">
+          <div class="sensitive-filter-card">
+              <div class="filter-info">
+                  <strong>Mode Kulit Sensitif</strong>
+                  <span>Filter bahan aktif yang berpotensi mengiritasi.</span>
+              </div>
+              <label class="toggle-switch">
+                  <input type="checkbox" id="sensitiveToggle">
+                  <span class="toggle-slider"></span>
+              </label>
+          </div>
+        </div>
+
+        <div class="product-tabs-container">
+          <div class="category-tabs">
+            <button class="tab-btn active" data-cat="cleanser">
+               <div class="icon">
+                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>
+               </div>
+               <span>Pembersih</span>
+            </button>
+            <button class="tab-btn" data-cat="moisturizer">
+               <div class="icon">
+                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v5"/><path d="M15 2h-6"/><path d="m6 10 3 3v7a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-7l3-3"/></svg>
+               </div>
+               <span>Pelembap</span>
+            </button>
+            <button class="tab-btn" data-cat="serum">
+               <div class="icon">
+                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m19 19-4-4"/><path d="M19 15v4h-4"/><path d="M3 15v4h4"/><path d="m3 19 4-4"/><path d="m20 4-4 4-2-2 4-4 2 2Z"/><path d="M10 14.5l-2.5-2.5"/><path d="m15.5 10-2-2"/></svg>
+               </div>
+               <span>Serum</span>
+            </button>
+            <button class="tab-btn" data-cat="spf">
+               <div class="icon">
+                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+               </div>
+               <span>Sunscreen</span>
+            </button>
+          </div>
+          <div class="products-grid-modern" id="productsScroll">
+             <!-- Products injected via JS -->
+          </div>
+        </div>
+      </section>
+      
+      <footer class="report-footer">
+        <p>Analisis ini didukung oleh BeautyScan AI Engine v2.4. Data bersifat referensi dan tidak menggantikan konsultasi medis langsung.</p>
+      </footer>
+    </main>
+  </div>
+
+  <div class="report-bg-ornaments"></div>
+
+  <!-- AI Advisor Chat Widget -->
+  <div class="chat-widget">
+    <div class="chat-bubble" id="chatBubble">✨</div>
+    
+    <div class="chat-window" id="chatWindow">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <div class="online-indicator"></div>
+          <div>
+            <h4 style="margin:0; font-size:1.1rem;">AI Advisor</h4>
+            <span style="font-size:0.75rem; opacity:0.8;">Online & Ready to help</span>
+          </div>
+        </div>
+        <div class="chat-controls">
+          <div class="ctrl-btn" id="fullscreenChat" title="Full Screen">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          </div>
+          <div class="ctrl-btn" id="minimizeChat" title="Minimize">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+          <div class="ctrl-btn" id="closeChat" title="Close">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </div>
+        </div>
+      </div>
+      
+      <div class="chat-body" id="chatBody">
+        <div class="msg ai">
+          Halo! Saya melihat hasil analisis kulitmu. Kamu punya beberapa area dehidrasi ringan. Ada yang ingin kamu tanyakan tentang rutinitas yang cocok?
+        </div>
+      </div>
+      
+      <form class="chat-footer" id="chatForm">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Tanyakan sesuatu..." autocomplete="off">
+        <button type="submit" class="send-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="chat.js"></script>
+</body>
+</html>

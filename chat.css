@@ -1,0 +1,115 @@
+/* ── V2 AI CONSULTATION CHAT ── */
+:root {
+  --chat-bg: rgba(255, 255, 255, 0.95);
+  --chat-accent: var(--accent-main);
+}
+
+.chat-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 4500;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* Minimized State */
+.chat-bubble {
+  width: 64px; height: 64px;
+  background: var(--accent-main);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 1.8rem;
+  cursor: pointer;
+  box-shadow: 0 16px 32px rgba(27, 59, 54, 0.2);
+  transition: 0.3s;
+  position: relative;
+}
+.chat-bubble:hover { transform: scale(1.1) rotate(5deg); }
+.chat-bubble::after {
+  content: "Tanya AI Advisor";
+  position: absolute; right: 80px; 
+  background: white; color: var(--text-main);
+  padding: 8px 16px; border-radius: 12px;
+  font-size: 0.85rem; font-weight: 700;
+  white-space: nowrap; box-shadow: var(--shadow-sm);
+  opacity: 0; transform: translateX(10px); transition: 0.3s;
+  pointer-events: none;
+}
+.chat-bubble:hover::after { opacity: 1; transform: translateX(0); }
+
+/* Maximized Window (Full Screen ready) */
+.chat-window {
+  width: 400px;
+  height: 600px;
+  max-width: 90vw;
+  max-height: 85vh;
+  background: var(--chat-bg);
+  backdrop-filter: blur(20px);
+  border-radius: 32px;
+  border: 1px solid rgba(255,255,255,0.4);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.15);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.chat-window.active { display: flex; }
+.chat-window.fullscreen {
+  width: 100vw; height: 100vh;
+  max-width: 100vw; max-height: 100vh;
+  bottom: 0; right: 0; border-radius: 0;
+}
+
+.chat-header {
+  padding: 24px;
+  background: var(--accent-main);
+  color: white;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.chat-header-info { display: flex; align-items: center; gap: 12px; }
+.online-indicator { width: 10px; height: 10px; background: #4ADE80; border-radius: 50%; border: 2px solid white; }
+
+.chat-controls { display: flex; gap: 12px; }
+.ctrl-btn { cursor: pointer; opacity: 0.8; transition: 0.2s; }
+.ctrl-btn:hover { opacity: 1; transform: scale(1.2); }
+
+.chat-body {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 16px;
+  background: rgba(254, 251, 247, 0.5);
+}
+
+.msg { max-width: 80%; padding: 14px 18px; border-radius: 20px; font-size: 0.95rem; line-height: 1.5; }
+.msg.ai { background: white; color: var(--text-main); align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+.msg.user { background: var(--accent-main); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+
+.chat-footer {
+  padding: 20px;
+  background: white;
+  display: flex; gap: 12px; align-items: center;
+  border-top: 1px solid var(--border-color);
+}
+.chat-input {
+  flex: 1; border: none; background: var(--base-bg);
+  padding: 14px 20px; border-radius: 100px;
+  font-family: inherit; font-size: 0.95rem; outline: none;
+}
+.send-btn {
+  width: 48px; height: 48px; background: var(--accent-main);
+  color: white; border: none; border-radius: 50%;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: 0.3s;
+}
+.send-btn:hover { transform: scale(1.1) rotate(10deg); }
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .chat-window { width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; border-radius: 0; }
+  .chat-widget { bottom: 20px; right: 20px; }
+}

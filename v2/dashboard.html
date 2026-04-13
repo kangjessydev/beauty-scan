@@ -137,54 +137,30 @@
             <div class="m-reward">+50 Koin</div>
           </div>
         </div>
+
+        <!-- Chat History V2 -->
+        <div class="mission-list">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+            <h3 style="margin:0;">Riwayat Konsultasi AI 💬</h3>
+            <a href="result.html" style="font-size:0.9rem; color:var(--accent-main); font-weight:700;">Buka Chat Baru</a>
+          </div>
+          
+          <div class="mission-item" style="background:white; border: 1px solid var(--border-color); cursor:pointer;">
+            <div class="m-info">
+              <h5 style="color:var(--accent-main);">Konsultasi #1: Masalah Pori-Pori</h5>
+              <p>13 April 2026 • 3 Pesan</p>
+            </div>
+            <div style="color:var(--text-muted); font-size:0.8rem;">Lihat Detail →</div>
+          </div>
+          
+          <div style="text-align:center; padding:20px; color:var(--text-muted); font-size:0.9rem; border: 2px dashed var(--border-color); border-radius:20px;">
+            Belum ada konsultasi lain.
+          </div>
+        </div>
       </section>
     </div>
   </main>
 
-  <!-- AI Advisor Chat Widget -->
-  <div class="chat-widget">
-    <div class="chat-bubble" id="chatBubble">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-    </div>
-    
-    <div class="chat-window" id="chatWindow">
-      <div class="chat-header">
-        <div class="chat-header-info">
-          <div class="online-indicator"></div>
-          <div>
-            <h4 style="margin:0; font-size:1.1rem;">AI Advisor</h4>
-            <span style="font-size:0.75rem; opacity:0.8;">Online & Ready to help</span>
-          </div>
-        </div>
-        <div class="chat-controls">
-          <div class="ctrl-btn" id="fullscreenChat" title="Full Screen">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-          </div>
-          <div class="ctrl-btn" id="minimizeChat" title="Minimize">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          </div>
-          <div class="ctrl-btn" id="closeChat" title="Close">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          </div>
-        </div>
-      </div>
-      
-      <div class="chat-body" id="chatBody">
-        <div class="msg ai" id="initialMsg">
-          Halo, Cantik! Saya AI Advisor BeautyScan. Ada yang ingin kamu tanyakan tentang kesehatan kulitmu hari ini?
-        </div>
-      </div>
-      
-      <form class="chat-footer" id="chatForm">
-        <input type="text" class="chat-input" id="chatInput" placeholder="Tanyakan sesuatu..." autocomplete="off">
-        <button type="submit" class="send-btn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
-      </form>
-    </div>
-  </div>
-
   <script src="script.js"></script>
-  <script src="chat.js"></script>
 </body>
 </html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#FEFBF7" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>Scanning — BeautyScan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="page-fade-in">
+  <!-- Custom Cursor -->
+  <div class="cursor-ring"></div>
+  <div class="cursor-dot"></div>
+
+  <div id="scanView" class="scan-fullscreen">
+    <div class="scan-layout-container">
+      
+      <!-- Visual Pane -->
+      <div class="scan-visual-pane">
+        <div class="scan-photo-frame">
+          <img id="scanPreview" src="" alt="Scanning context" />
+          <div class="scan-laser"></div>
+        </div>
+      </div>
+
+      <!-- Dashboard Pane -->
+      <div class="scan-dashboard-pane">
+        <div class="scan-live-badge">
+          <span class="badge-dot-live"></span>
+          Memahami Rahasia Kulitmu...
+        </div>
+        <h2 class="scan-msg" id="scanStatus">Sedang Menelusuri...</h2>
+        <p class="scan-sub">Kami sedang melihat keunikan kulitmu untuk mencari perawatan yang paling cocok.</p>
+        
+        <div class="scan-progress-area">
+          <div class="progress-info">
+            <span>Progress Pemetaan</span>
+            <span id="scanPercent">0%</span>
+          </div>
+          <div class="scan-progress-track">
+            <div class="scan-progress-fill" id="scanProgress"></div>
+          </div>
+        </div>
+
+        <div class="analysis-steps">
+          <div class="step-item active" id="step-0"><div class="step-icon-check">1</div><span>Struktur Wajah</span></div>
+          <div class="step-item" id="step-1"><div class="step-icon-check">2</div><span>Tekstur & Pori</span></div>
+          <div class="step-item" id="step-2"><div class="step-icon-check">3</div><span>Pigmentasi</span></div>
+          <div class="step-item" id="step-3"><div class="step-icon-check">4</div><span>Klasifikasi</span></div>
+        </div>
+
+        <div class="dashboard-footer" style="margin-top: 40px; padding-top: 30px; border-top: 1px dashed var(--border-color); font-size: 0.8rem; color: var(--text-muted);">
+          <p>Data foto kamu tetap aman dan hanya diproses secara lokal.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

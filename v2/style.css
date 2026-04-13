@@ -63,7 +63,7 @@ body {
 .cursor-ring {
   width: 32px;
   height: 32px;
-  border: 1.5px solid #fff;
+  border: 1px solid var(--accent-main);
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
@@ -71,12 +71,11 @@ body {
   transition: transform 0.2s ease-out, opacity 0.3s ease, border-width 0.2s ease;
   transform: translate(-50%, -50%);
   opacity: 0;
-  mix-blend-mode: difference;
 }
 .cursor-dot {
-  width: 8px;
-  height: 8px;
-  background: #fff;
+  width: 6px;
+  height: 6px;
+  background: var(--accent-main);
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
@@ -84,9 +83,7 @@ body {
   transform: translate(-50%, -50%);
   transition: transform 0.1s ease;
   opacity: 0;
-  mix-blend-mode: difference;
 }
-
 body:hover .cursor-ring, body:hover .cursor-dot { opacity: 1; }
 
 .cursor-ring.active { transform: translate(-50%, -50%) scale(1.8); background: rgba(27, 59, 54, 0.05); }
