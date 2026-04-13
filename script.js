@@ -219,10 +219,10 @@ function startScan() {
 
     // Update status message based on pct
     if (scanStatus) {
-      if (pct < 25) scanStatus.textContent = 'Deteksi Struktur Wajah...';
-      else if (pct < 50) scanStatus.textContent = 'Analisis Tekstur & Pori...';
-      else if (pct < 75) scanStatus.textContent = 'Pemetaan Pigmentasi...';
-      else if (pct < 100) scanStatus.textContent = 'Klasifikasi Kondisi...';
+      if (pct < 25) scanStatus.textContent = 'Menyapa Wajahmu...';
+      else if (pct < 50) scanStatus.textContent = 'Membaca Cerita Kulitmu...';
+      else if (pct < 75) scanStatus.textContent = 'Menelusuri Cahaya Alami...';
+      else if (pct < 100) scanStatus.textContent = 'Merangkum Hasil Terbaik...';
     }
 
     // Update Milestones
@@ -287,11 +287,11 @@ function showInteractiveResults() {
           </div>
         </div>
         <div class="detail-row">
-          <strong>Temuan Klinis</strong>
+          <strong>Kondisi Kulitmu</strong>
           ${res.medical}
         </div>
         <div class="detail-row">
-          <strong>Langkah Penanganan</strong>
+          <strong>Saran Perawatan</strong>
           ${res.needs}
         </div>
       `;
@@ -305,7 +305,7 @@ function showInteractiveResults() {
           const statuses = ['Kombinasi (Berminyak/Kering)', 'Cenderung Dehidrasi', 'Sensitif & Oily'];
           ps.textContent = statuses[Math.floor(Math.random() * statuses.length)];
         }
-        if (pd) pd.textContent = 'Analisis laser menunjukkan gangguan pada lipid barrier di area pipi serta aktivitas kelenjar sebasea yang meninggi di T-Zone.';
+        if (pd) pd.textContent = 'Kami melihat ada sedikit kelelahan pada skin barrier di area pipimu, tapi jangan khawatir! Dengan hidrasi yang tepat, kulitmu bisa kembali fresh dan glowing.';
         
         // Randomize metrics
         document.querySelectorAll('.metric-fill').forEach(fill => {
