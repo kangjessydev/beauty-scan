@@ -31,25 +31,25 @@ const PRODUCTS = {
 
 const RESULTS_DATA = [
   {
-    icon: ICONS.water, title: 'Defisit Hidrasi (Kering)', severity: 'Ringan', severityClass: 'mild', emoji: '😐', bars: [1,0,0],
+    icon: ICONS.water, title: 'Defisit Hidrasi (Kering)', severity: 'Ringan', severityClass: 'mild',
     general: 'Kulit terdeteksi kurang elastis dan butuh kelembapan ekstra.',
     medical: 'Indikasi melemahnya struktur lipid barrier dengan resiko tingginya level TEWL.',
     needs: 'Agen oklusif ringan seperti Ceramide pendukung retensi air.'
   },
   {
-    icon: ICONS.micro, title: 'Pori-Pori Membesar', severity: 'Sedang', severityClass: 'moderate', emoji: '😟', bars: [1,1,0],
+    icon: ICONS.micro, title: 'Pori-Pori Membesar', severity: 'Sedang', severityClass: 'moderate',
     general: 'Distribusi pori yang jelas di area hidung/dagu, rentan penumpukan debu.',
     medical: 'Dilasi folikel sebasea dipicu oleh aktivitas sekresi sebum berlebih.',
     needs: 'Eksfoliasi kimia sangat lembut (BHA) dan Niacinamide.'
   },
   {
-    icon: ICONS.moon, title: 'Hiperpigmentasi Minor', severity: 'Ringan', severityClass: 'mild', emoji: '😐', bars: [1,0,0],
+    icon: ICONS.moon, title: 'Hiperpigmentasi Minor', severity: 'Ringan', severityClass: 'mild',
     general: 'Adanya spot gelap bayangan halus di sekitar tulang pipi.',
     medical: 'Peningkatan konsentrasi melanin lokal akibat masa inflamasi masa lalu.',
     needs: 'Inhibitor tirosinase dan perlindungan UV wajib harian.'
   },
   {
-    icon: ICONS.sparkle, title: 'T-Zone Overaktif', severity: 'Signifikan', severityClass: 'significant', emoji: '😭', bars: [1,1,1],
+    icon: ICONS.sparkle, title: 'T-Zone Overaktif', severity: 'Signifikan', severityClass: 'significant',
     general: 'Area dahi dan hidung menekan profil kulit menjadi rentan sangat berminyak.',
     medical: 'Stimulasi hiperaktif kelenjar sebasea yang berlebih akibat stres.',
     needs: 'Skincare minim minyak (water-based) yang cepat menyerap.'
@@ -57,132 +57,175 @@ const RESULTS_DATA = [
 ];
 
 // ── DOM REFS ──────────────────────────────────────────────
-const marketingPages = document.getElementById('marketingPages');
 const mainCard      = document.getElementById('mainCard');
 const uploadState   = document.getElementById('uploadState');
-const scanState     = document.getElementById('scanState');
 const uploadBtn     = document.getElementById('uploadBtn');
 const fileInput     = document.getElementById('fileInput');
 const sampleImgs    = document.querySelectorAll('.sample-img');
 
-const scanPreviewImg= document.getElementById('scanPreviewImg');
-const scanMessage   = document.getElementById('scanMessage');
+const scanPreviewImg   = document.getElementById('scanPreviewImg');
+const scanMessage      = document.getElementById('scanMessage');
 const scanProgressFill = document.getElementById('scanProgressFill');
 
-const resultsSection= document.getElementById('results');
-const resultImg     = document.getElementById('resultImg');
-const resultCardsContainer = document.getElementById('resultCardsContainer');
+const readyToScanState = document.getElementById('readyToScanState');
+const uploadPreviewImg = document.getElementById('uploadPreviewImg');
+const confirmScanBtn   = document.getElementById('confirmScanBtn');
+const scanView         = document.getElementById('scanView');
 
-const toggleWrap    = document.getElementById('toggleWrap');
-const sensitiveToggle = document.getElementById('sensitiveToggle');
+const resultImg              = document.getElementById('resultImg');
+const resultCardsContainer   = document.getElementById('resultCardsContainer');
+const toggleWrap             = document.getElementById('toggleWrap');
+const sensitiveToggle        = document.getElementById('sensitiveToggle');
 
-const recoSection   = document.getElementById('recommendations');
-const productsScroll= document.getElementById('productsScroll');
-const tabBtns       = document.querySelectorAll('.tab-btn');
+const homeView    = document.getElementById('homeView');
+const resultsView = document.getElementById('resultsView');
+
+// Lazy refs — resolved after resultsView is shown
+const getRecoSection    = () => document.getElementById('recommendations');
+const getProductsScroll = () => document.getElementById('productsScroll');
+const getTabBtns        = () => document.querySelectorAll('.tab-btn');
 
 let currentCategory = 'cleanser';
 let uploadedDataUrl = '';
 let isSampleImage   = false;
 let isSensitive     = false;
 
-// ── FILE HANDLING & SAMPLES ──────────────────────────────
-function handleFile(file) {
+// ── FILE HANDLING & STORAGE ──────────────────────────────
+async function compressAndStore(dataUrl) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const MAX_SIZE = 1200;
+      let width = img.width;
+      let height = img.height;
+      
+      if (width > height) {
+        if (width > MAX_SIZE) {
+          height *= MAX_SIZE / width;
+          width = MAX_SIZE;
+        }
+      } else {
+        if (height > MAX_SIZE) {
+          width *= MAX_SIZE / height;
+          height = MAX_SIZE;
+        }
+      }
+      
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      // Compress to 0.7 quality JPEG
+      const compressedUrl = canvas.toDataURL('image/jpeg', 0.7);
+      sessionStorage.setItem('scannedImage', compressedUrl);
+      resolve(compressedUrl);
+    };
+    img.src = dataUrl;
+  });
+}
+
+async function handleFile(file) {
   if (!file || !file.type.startsWith('image/')) return;
   const reader = new FileReader();
-  reader.onload = (e) => {
-    uploadedDataUrl = e.target.result;
+  reader.onload = async (e) => {
+    const rawData = e.target.result;
+    uploadedDataUrl = rawData;
     isSampleImage = false;
-    startScan();
+    
+    // Simpan ke storage (kompresi dilakukan di latar belakang atau saat konfirmasi)
+    // Tampilkan preview instan (raw)
+    if (uploadState) uploadState.style.display = 'none';
+    if (readyToScanState) {
+      readyToScanState.style.display = 'block';
+      if (uploadPreviewImg) uploadPreviewImg.src = rawData;
+    }
   };
   reader.readAsDataURL(file);
 }
 
-uploadBtn.addEventListener('click', () => fileInput.click());
-fileInput.addEventListener('change', () => handleFile(fileInput.files[0]));
+async function proceedToScan() {
+  if (!uploadedDataUrl) return;
 
-mainCard.addEventListener('dragover', (e) => { e.preventDefault(); mainCard.classList.add('drag-over'); });
-mainCard.addEventListener('dragleave', () => mainCard.classList.remove('drag-over'));
-mainCard.addEventListener('drop', (e) => { e.preventDefault(); mainCard.classList.remove('drag-over'); handleFile(e.dataTransfer.files[0]); });
+  // Jika sample (URL luar), simpan langsung. Jika upload, kompres dulu.
+  if (uploadedDataUrl.startsWith('data:')) {
+    await compressAndStore(uploadedDataUrl);
+  } else {
+    sessionStorage.setItem('scannedImage', uploadedDataUrl);
+  }
+  
+  // Transisi keluar
+  document.body.style.opacity = '0';
+  document.body.style.transition = 'opacity 0.4s ease';
+  setTimeout(() => {
+    window.location.href = 'scan.html';
+  }, 400);
+}
 
-// Sample images click trigger
-sampleImgs.forEach(img => {
-  img.addEventListener('click', () => {
-    const bgImage = img.style.backgroundImage;
-    // Extract url from url('...')
-    const urlMatches = bgImage.match(/url\(['"]?(.*?)['"]?\)/);
-    if(urlMatches && urlMatches[1]) {
-      uploadedDataUrl = urlMatches[1];
-      isSampleImage = true;
-      startScan();
-    }
-  });
-});
+if (confirmScanBtn) {
+  confirmScanBtn.addEventListener('click', proceedToScan);
+}
 
-// ── BEFORE/AFTER SLIDER LOGIC ─────────────────────────────
-const baContainer = document.getElementById('baContainer');
-const baTop = document.getElementById('baTop');
-const baSlider = document.getElementById('baSlider');
+if (uploadBtn) uploadBtn.addEventListener('click', () => fileInput.click());
+if (fileInput) fileInput.addEventListener('change', () => handleFile(fileInput.files[0]));
 
-if (baContainer) {
-  let isSliding = false;
-  // Support both mouse and touch for slider
-  const handleSlide = (clientX) => {
-    const rect = baContainer.getBoundingClientRect();
-    let x = clientX - rect.left;
-    let percentage = (x / rect.width) * 100;
-    if (percentage < 0) percentage = 0;
-    if (percentage > 100) percentage = 100;
-    
-    // Using clip-path: inset(top right bottom left)
-    // Left side is visible, we cut from right.
-    baTop.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
-    baSlider.style.left = percentage + '%';
-  };
+if (mainCard) {
+  mainCard.addEventListener('dragover', (e) => { e.preventDefault(); mainCard.classList.add('drag-over'); });
+  mainCard.addEventListener('dragleave', () => mainCard.classList.remove('drag-over'));
+  mainCard.addEventListener('drop', (e) => { e.preventDefault(); mainCard.classList.remove('drag-over'); handleFile(e.dataTransfer.files[0]); });
+}
 
-  baContainer.addEventListener('mousedown', () => isSliding = true);
-  window.addEventListener('mouseup', () => isSliding = false);
-  window.addEventListener('mousemove', (e) => {
-    if (!isSliding) return;
-    handleSlide(e.clientX);
-  });
-
-  baContainer.addEventListener('touchstart', () => isSliding = true);
-  window.addEventListener('touchend', () => isSliding = false);
-  window.addEventListener('touchmove', (e) => {
-    if (!isSliding) return;
-    handleSlide(e.touches[0].clientX);
+if (sampleImgs) {
+  sampleImgs.forEach(img => {
+    img.addEventListener('click', () => {
+      const bgImage = img.style.backgroundImage;
+      const urlMatches = bgImage.match(/url\(['"]?(.*?)['"]?\)/);
+      if(urlMatches && urlMatches[1]) {
+        uploadedDataUrl = urlMatches[1];
+        isSampleImage = true;
+        
+        if (uploadState) uploadState.style.display = 'none';
+        if (readyToScanState) {
+          readyToScanState.style.display = 'block';
+          if (uploadPreviewImg) uploadPreviewImg.src = uploadedDataUrl;
+        }
+      }
+    });
   });
 }
 
-// ── SCAN FLOW ─────────────────────────────────────────────
+// ── SCAN FLOW ──────────────────────────────────────────────
 const SCAN_MSGS = [
-  'Memuat AI Model...',
-  'Menyinkronkan data piksel wajah...',
-  'Memetakan kedalaman pori...',
-  'Mengekstrak hiperpigmentasi...',
-  'Mempersiapkan diagnosis...'
+  'Memuat Sistem AI...',
+  'Memetakan tekstur & pori wajah...',
+  'Menganalisis tingkat hidrasi kulit...',
+  'Mendeteksi hiperpigmentasi & pigmen...',
+  'Mengukur sensitivitas area kulit...',
+  'Mempersiapkan laporan diagnosis...'
 ];
 
 function startScan() {
-  uploadState.style.display = 'none';
-  scanState.style.display = 'block';
-  
-  scanPreviewImg.src = uploadedDataUrl;
-  
-  // Progress Simulation
   let msgIdx = 0;
-  scanMessage.textContent = SCAN_MSGS[0];
+  if (scanMessage) scanMessage.textContent = SCAN_MSGS[0];
+
   const msgInt = setInterval(() => {
     msgIdx = (msgIdx + 1) % SCAN_MSGS.length;
-    scanMessage.textContent = SCAN_MSGS[msgIdx];
-  }, 900);
+    if (scanMessage) scanMessage.textContent = SCAN_MSGS[msgIdx];
+  }, 700);
 
-  const duration = 3500;
+  const duration = 5000; // Ubah ke 5 detik sesuai request
   const start = Date.now();
   const progressInt = setInterval(() => {
     const elapsed = Date.now() - start;
-    scanProgressFill.style.width = Math.min((elapsed/duration)*100, 100) + '%';
-    if(elapsed >= duration) {
+    const pct = Math.min((elapsed / duration) * 100, 100);
+    if (scanProgressFill) scanProgressFill.style.width = pct + '%';
+    
+    // Update persentase teks
+    const pctEl = document.getElementById('progressPct');
+    if (pctEl) pctEl.textContent = Math.floor(pct) + '%';
+
+    if (elapsed >= duration) {
       clearInterval(progressInt);
       clearInterval(msgInt);
       finishScan();
@@ -191,79 +234,84 @@ function startScan() {
 }
 
 function finishScan() {
+  if (scanMessage) scanMessage.textContent = 'Analisis Selesai ✓';
+
   setTimeout(() => {
-    scanMessage.textContent = "Analisis Selesai.";
-    scanProgressFill.parentElement.style.opacity = '0';
+    // Animasi fade out sebelum pindah
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.5s ease';
+    
     setTimeout(() => {
-      // Hide entire marketing layout leaving a super clean app view
-      marketingPages.style.display = 'none';
-      showInteractiveResults();
+      window.location.href = 'result.html';
     }, 500);
-  }, 400);
+  }, 600);
 }
 
 // ── PROGRESSIVE RESULTS ───────────────────────────────────
 function showInteractiveResults() {
-  resultImg.src = uploadedDataUrl;
-
-  resultsSection.style.display = 'block';
+  if (resultImg) resultImg.src = uploadedDataUrl;
   window.scrollTo({ top: 0, behavior: 'smooth' });
   
+  if (!resultCardsContainer) return;
   resultCardsContainer.innerHTML = ''; 
   let idx = 0;
 
-  // App-like incremental loading per card
   const loadInterval = setInterval(() => {
     if (idx < RESULTS_DATA.length) {
       const res = RESULTS_DATA[idx];
-      
-      const barsHtml = res.bars.map(isActive => `<span class="bar ${isActive ? res.severityClass : ''}"></span>`).join('');
-      
       const card = document.createElement('div');
-      card.className = 'result-card pop-in';
+      card.className = 'result-card-modern pop-in';
       card.id = `result-card-${idx}`;
       card.innerHTML = `
-        <div class="result-icon-box">${res.icon}</div>
-        <div class="result-card-body">
-          <div class="result-header">
+        <div class="result-card-header">
+          <div class="result-icon-box">${res.icon}</div>
+          <div class="result-title-group">
             <h3 class="result-title">${res.title}</h3>
-            <div class="score-indicator" title="${res.severity}">
-               <span class="score-emoji">${res.emoji}</span>
-               <div class="score-bars">${barsHtml}</div>
-            </div>
+            <span class="status-badge badge-${res.severityClass}">${res.severity}</span>
           </div>
-          <div class="detail-row">
-            <span class="detail-label">Indikasi</span>
-            <span>${res.general}</span>
-          </div>
-          <div class="detail-row">
-            <span class="detail-label">Klinis</span>
-            <span>${res.medical}</span>
-          </div>
-          <div class="detail-row">
-            <span class="detail-label">Kebutuhan Solusi</span>
-            <span>${res.needs}</span>
-          </div>
+        </div>
+        <div class="detail-row">
+          <strong>Temuan Klinis</strong>
+          ${res.medical}
+        </div>
+        <div class="detail-row">
+          <strong>Langkah Penanganan</strong>
+          ${res.needs}
         </div>
       `;
       resultCardsContainer.appendChild(card);
       
-      // Smoothly scroll to the new card
-      if(idx > 0) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      // Update primary status randomly for first card or logic
+      if (idx === 0) {
+        const ps = document.getElementById('primaryStatus');
+        const pd = document.getElementById('primaryDesc');
+        if (ps) {
+          const statuses = ['Kombinasi (Berminyak/Kering)', 'Cenderung Dehidrasi', 'Sensitif & Oily'];
+          ps.textContent = statuses[Math.floor(Math.random() * statuses.length)];
+        }
+        if (pd) pd.textContent = 'Analisis laser menunjukkan gangguan pada lipid barrier di area pipi serta aktivitas kelenjar sebasea yang meninggi di T-Zone.';
+        
+        // Randomize metrics
+        document.querySelectorAll('.metric-fill').forEach(fill => {
+           const val = Math.floor(Math.random() * (95 - 60 + 1)) + 60;
+           fill.style.width = val + '%';
+           const valEl = fill.parentElement.nextElementSibling;
+           if (valEl) valEl.textContent = val + '%';
+        });
+      }
+
       idx++;
     } else {
       clearInterval(loadInterval);
-      // Show the sensitive toggle naturally after cards
-      toggleWrap.style.display = 'flex';
-      setTimeout(() => toggleWrap.classList.add('pop-in'), 100);
-      
-      // Setup Tooltip Interaction
+      if (toggleWrap) {
+        toggleWrap.style.display = 'block';
+        setTimeout(() => toggleWrap.classList.add('pop-in'), 100);
+      }
       setupTooltips();
-
-      // Also show recommendations completely
-      setTimeout(showRecommendations, 800);
+      setTimeout(showRecommendations, 600);
+      setupTabListeners();
     }
-  }, 1000); 
+  }, 500); 
 }
 
 function setupTooltips() {
@@ -280,52 +328,74 @@ function setupTooltips() {
   });
 }
 
-sensitiveToggle.addEventListener('change', (e) => {
-  isSensitive = e.target.checked;
-  // If sensitive is toggled, flash products out and back in
-  productsScroll.style.opacity = '0';
-  setTimeout(() => {
-    renderProducts(currentCategory);
-    productsScroll.style.opacity = '1';
-  }, 300);
-});
-
 function showRecommendations() {
+  const recoSection = getRecoSection();
+  if (!recoSection) return;
   recoSection.style.display = 'block';
   recoSection.classList.add('pop-in');
-  recoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
   renderProducts('cleanser');
 }
 
-// ── PRODUCTS RENDERING ────────────────────────────────────
+function setupTabListeners() {
+  const tabBtns = getTabBtns();
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCategory = btn.dataset.cat;
+      const productsScroll = getProductsScroll();
+      if (!productsScroll) return;
+      productsScroll.innerHTML = `
+        <div class="product-card skeleton" style="height:280px;"></div>
+        <div class="product-card skeleton" style="height:280px;"></div>
+      `;
+      setTimeout(() => renderProducts(currentCategory), 500);
+    });
+  });
+
+  if (sensitiveToggle) {
+    sensitiveToggle.addEventListener('change', (e) => {
+      isSensitive = e.target.checked;
+      const productsScroll = getProductsScroll();
+      if (!productsScroll) return;
+      productsScroll.style.opacity = '0';
+      setTimeout(() => {
+        renderProducts(currentCategory);
+        productsScroll.style.opacity = '1';
+      }, 250);
+    });
+  }
+}
+
 function renderProducts(cat) {
+  const productsScroll = getProductsScroll();
+  if (!productsScroll) return;
   productsScroll.innerHTML = '';
   
-  let items = [];
-  if(cat === 'cleanser') {
-    items.push(PRODUCTS.cleanser[0], PRODUCTS.moisturizer[0], PRODUCTS.serum[0], PRODUCTS.spf[0]);
-  } else {
-    items = PRODUCTS[cat] || [];
-  }
+  let items = (cat === 'cleanser') 
+    ? [PRODUCTS.cleanser[0], PRODUCTS.moisturizer[0], PRODUCTS.serum[0], PRODUCTS.spf[0]]
+    : (PRODUCTS[cat] || []);
 
   items.forEach((p, i) => {
     const card = document.createElement('div');
-    card.className = 'product-card pop-in';
-    card.style.animationDelay = `${i * 100}ms`;
+    card.className = 'product-card-premium pop-in';
+    card.style.animationDelay = `${i * 150}ms`;
     
-    let sensitiveBadge = isSensitive ? '<span style="color:#10b981; font-weight:600; font-size:0.75rem; margin-top:2px;">✔ Aman untuk kulit sensitif</span>' : '';
+    let sensitiveTag = isSensitive ? '<div class="product-badge">Safe for Sensitive</div>' : '';
+    let buyIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
 
     card.innerHTML = `
-      <div class="product-img-box">${p.svg}</div>
-      <div class="product-body">
-        <p class="product-brand">${p.brand}</p>
+      <div class="product-img-wrap">
+        ${p.svg}
+        ${sensitiveTag}
+      </div>
+      <div class="product-content">
+        <span class="product-brand">${p.brand}</span>
         <h3 class="product-name">${p.name}</h3>
-        <p class="product-reason">${p.reason} ${sensitiveBadge}</p>
-        <div class="product-footer">
+        <p class="product-desc">${p.reason}</p>
+        <div class="product-meta">
           <span class="product-price">${p.price}</span>
-          <a href="${p.url}" target="_blank" class="product-btn" aria-label="Beli Produk">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
+          <a href="${p.url}" target="_blank" class="btn-buy">Beli Produk ${buyIcon}</a>
         </div>
       </div>
     `;
@@ -333,26 +403,98 @@ function renderProducts(cat) {
   });
 }
 
-tabBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    tabBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentCategory = btn.dataset.cat;
-    renderProducts(currentCategory);
-  });
-});
-
-// ── INITIAL PAGE LOAD ANIMATIONS ──────────────────────────
+// ── INITIALIZATION ────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
-  const heroLeftItems = document.querySelectorAll('.hero-left > *');
-  heroLeftItems.forEach((item, index) => {
-    item.classList.add('pop-in');
-    item.style.animationDelay = `${index * 150}ms`;
+  // Custom Cursor Logic
+  const cursorRing = document.querySelector('.cursor-ring');
+  const cursorDot = document.querySelector('.cursor-dot');
+  
+  if (cursorRing && cursorDot) {
+    window.addEventListener('mousemove', (e) => {
+      cursorRing.style.left = e.clientX + 'px';
+      cursorRing.style.top = e.clientY + 'px';
+      cursorDot.style.left = e.clientX + 'px';
+      cursorDot.style.top = e.clientY + 'px';
+    });
+
+    document.querySelectorAll('a, button, .faq-question, .tab-btn, .sample-img').forEach(el => {
+      el.addEventListener('mouseenter', () => cursorRing.classList.add('active'));
+      el.addEventListener('mouseleave', () => cursorRing.classList.remove('active'));
+    });
+  }
+
+  // Sticky Header Logic
+  const header = document.querySelector('#homeView .app-header');
+  if (header) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+  }
+
+  // Reveal Observer (Scroll Animations)
+  const revealCallback = (entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      }
+    });
+  };
+
+  const revealObserver = new IntersectionObserver(revealCallback, {
+    threshold: 0.1
   });
 
-  const heroRight = document.querySelector('.hero-right');
-  if(heroRight) {
-    heroRight.classList.add('pop-in');
-    heroRight.style.animationDelay = '300ms';
+  document.querySelectorAll('.reveal').forEach(el => {
+    revealObserver.observe(el);
+  });
+
+  // FAQ Toggle Logic
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+      q.parentElement.classList.toggle('active');
+    });
+  });
+
+  // Tab Buttons — initialized lazily after results view opens via setupTabListeners()
+});
+// ── INIT SPESIFIK HALAMAN (MPA ROUTING) ────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Animasi masuk (Fade In)
+  document.body.style.opacity = '1';
+  document.body.style.transition = 'opacity 0.4s ease';
+
+  // Jika di halaman Scan
+  const scanViewEl = document.getElementById('scanView');
+  if (scanViewEl) {
+    const savedImg = sessionStorage.getItem('scannedImage');
+    const scanImgEl = document.getElementById('scanPreviewImg');
+    if (savedImg && scanImgEl) {
+      scanImgEl.src = savedImg;
+    }
+    // Mulai scan setelah masuk
+    setTimeout(startScan, 500); 
+  }
+  
+  // Jika di halaman Result
+  const resultsViewEl = document.getElementById('resultsView');
+  if (resultsViewEl) {
+    const savedImg = sessionStorage.getItem('scannedImage');
+    if (savedImg) {
+      uploadedDataUrl = savedImg;
+      const resImgEl = document.getElementById('resultImg');
+      if (resImgEl) resImgEl.src = savedImg;
+    }
+    
+    // Set Timestamp
+    const tsEl = document.getElementById('scanTimestamp');
+    if (tsEl) {
+      tsEl.textContent = new Date().toLocaleString('id-ID', { dateStyle: 'long', timeStyle: 'short' });
+    }
+    
+    showInteractiveResults();
   }
 });

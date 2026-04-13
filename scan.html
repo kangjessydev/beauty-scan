@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menganalisis Kulit... — BeautyScan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="page-fade-in">
+  <!-- Custom Cursor -->
+  <div class="cursor-ring"></div>
+  <div class="cursor-dot"></div>
+
+  <div id="scanView" class="view-overlay" style="display: flex; position: relative; background: var(--base-bg);">
+    <div class="scan-fullscreen">
+      <div class="scan-layout-container">
+        
+        <!-- Left: Immersive Visual -->
+        <div class="scan-visual-pane">
+           <div class="scan-photo-frame">
+              <img id="scanPreviewImg" src="" alt="Foto yang dianalisis" />
+              <!-- Corner brackets -->
+              <div class="scan-corner tl"></div>
+              <div class="scan-corner tr"></div>
+              <div class="scan-corner bl"></div>
+              <div class="scan-corner br"></div>
+              <!-- Laser line -->
+              <div class="scan-laser-line" id="scanLaser"></div>
+              <!-- Grid overlay -->
+              <div class="scan-grid-overlay"></div>
+            </div>
+        </div>
+
+        <!-- Right: AI Dashboard -->
+        <div class="scan-dashboard-pane">
+          <div class="dashboard-header">
+             <span class="scan-live-badge">● Menganalisis Biologi</span>
+             <h2 id="scanMessage" class="scan-msg">Menghubungkan ke AI Engine...</h2>
+             <p class="scan-sub">Menganalisis 14 parameter biologi kulit Anda untuk akurasi diagnosis maksimal.</p>
+          </div>
+
+          <div class="dashboard-stats">
+            <div class="scan-progress-wrapper">
+              <div class="progress-info">
+                <span>Progress Analisis</span>
+                <span id="progressPct">0%</span>
+              </div>
+              <div class="scan-progress-track">
+                <div class="scan-progress-fill" id="scanProgressFill"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="dashboard-footer">
+            <p>Sistem AI BeautyScan memproses data secara lokal untuk keamanan privasi Anda.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="scan-bg-decoration"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

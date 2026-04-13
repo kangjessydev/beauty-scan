@@ -3,269 +3,353 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BeautyScan — Analisis Kulit AI</title>
-  <meta name="description" content="AI pemindai kulit presisi tinggi secara instan." />
+  <title>BeautyScan — Kenali Kulitmu, Temukan Produk Terbaikmu</title>
+  <meta name="description" content="Tools kecantikan AI untuk menganalisis kondisi kulit dan rekomendasi produk skincare terbaikmu." />
+  
+  <!-- Font Goggle: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+  <body>
+    <!-- Custom Cursor -->
+    <div class="cursor-ring"></div>
+    <div class="cursor-dot"></div>
 
-  <!-- ░░ NAV ░░ -->
+    <div id="homeView">
+      <!-- 1. Navbar -->
   <header class="app-header">
     <div class="nav-container">
       <div class="logo">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent-main)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
         <span>BeautyScan</span>
       </div>
       <nav class="nav-links">
-        <a href="#">Fitur</a>
-        <a href="#">Untuk Profesional</a>
-        <a href="#">API Integrasi</a>
-        <a href="#">Harga</a>
+        <a href="#science">Sains</a>
+        <a href="#how-it-works">Cara Kerja</a>
+        <a href="#features">Keunggulan</a>
+        <a href="#upload-section">Analisis Kulit</a>
       </nav>
       <div class="nav-actions">
-        <a href="#" class="btn-text">Masuk</a>
-        <a href="#" class="btn-signup">Daftar Gratis</a>
+        <a href="#upload-section" class="btn-cta">Coba Sekarang</a>
       </div>
     </div>
   </header>
 
-  <!-- ░░ WRAPPER FOR LANDING PAGE CONTENT (Hides when scanning) ░░ -->
+  <!-- Bagian Marketing (Sembunyi saat hasil dirender) -->
   <div id="marketingPages">
     
-    <!-- ░░ HERO / UPLOAD ░░ -->
-    <section class="hero-split-section" id="heroSplitSection">
+    <!-- 2. Hero Section -->
+    <section class="hero-section">
       <div class="hero-container">
-        
-        <div class="hero-left">
-          <h1 class="hero-headline">Analisis Kulit Otomatis <br>berbasis AI.</h1>
-          <p class="hero-subtitle">Pemindai wajah beresolusi tinggi 100% otomatis, mendeteksi masalah tekstur, kelembapan, dan pigmen secara seketika—tanpa biaya.</p>
-          
-          <div class="feature-chips">
-             <span class="chip">Otomatis & Akurat</span>
-             <span class="chip">Rekomendasi Terkurasi</span>
-             <span class="chip">Gratis</span>
+        <div class="hero-content">
+          <span class="hero-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+            Diagnosis Dermatologi Berbasis AI
+          </span>
+          <h1 class="hero-headline">Kesehatan Kulit, <br/>Didefinisikan Kembali untuk <span>Hidupmu</span>.</h1>
+          <p class="hero-subtitle">BeautyScan menggunakan AI klinis canggih untuk memetakan biologi unik kulitmu dan memberikan panduan personal menuju ketahanan kesehatan jangka panjang.</p>
+          <div class="hero-btns" style="display:flex; gap:16px;">
+            <a href="#upload-section" class="btn-primary-large">Mulai Analisis Gratis</a>
+            <a href="#science" class="btn-cta" style="background:transparent; color:var(--accent-main); border:1px solid var(--accent-main); box-shadow:none;">Pelajari Sains Kami</a>
           </div>
         </div>
+        <div class="hero-visual">
+          <div class="image-wrapper">
+             <img src="hero.png" alt="Clinical visualization" class="hero-img" />
+             <div class="floating-badge badge-1">
+               <span class="badge-dot pulse-pink"></span> Kedalaman Klinis
+             </div>
+             <div class="floating-badge badge-2">
+               <span class="badge-dot pulse-sage"></span> Analisis Real-time
+             </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <div class="hero-right">
-          <div class="upload-card modern-card" id="mainCard">
-            <!-- Upload State -->
-            <div id="uploadState" class="card-state active">
-              <button class="btn-upload-massive" id="uploadBtn">
-                Unggah Gambar
-              </button>
-              <p class="drop-text">atau seret file ke area ini</p>
+    <!-- NEW SECTION: Science Composite -->
+    <section id="science" class="science-section section-spacer reveal">
+      <div class="container medvi-grid">
+        <div class="grid-visual-composite">
+          <img src="skin.png" alt="Skin focus" class="img-sub" style="margin-top: 40px;">
+          <img src="client.png" alt="Woman smiling" class="img-sub">
+          <img src="lab.png" alt="Skincare laboratory" class="img-main">
+        </div>
+        <div class="content-block">
+          <span class="small-badge">Pendekatan Multi-Modern</span>
+          <h2>Cara lebih cerdas untuk mengelola biologi kulitmu.</h2>
+          <p>Kami menggabungkan dataset dermatologi dengan jaringan saraf tiruan untuk memberikan pandangan holistik tentang kesehatan kulitmu, jauh melampaui pengamatan permukaan saja.</p>
+          <ul class="checklist">
+            <li>Pemetaan tingkat hidrasi & tekstur</li>
+            <li>Deteksi kerusakan UV & hiperpigmentasi</li>
+            <li>Deteksi dini sensitivitas kulit</li>
+          </ul>
+          <a href="#upload-section" class="btn-cta">Coba Sekarang</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW SECTION: Resilience (Portrait) -->
+    <section class="resilience-section alt-bg section-spacer reveal">
+      <div class="container medvi-grid reverse">
+        <div class="grid-visual-composite" style="grid-template-columns: 1fr;">
+          <img src="portrait.png" alt="Resilience portrait" class="img-main" style="height: 600px;">
+        </div>
+        <div class="content-block">
+          <span class="small-badge">Temukan Ketahananmu</span>
+          <h2>Jalur personal menuju kulit yang percaya diri.</h2>
+          <p>Setiap orang memiliki susunan biologi yang unik. BeautyScan memetakan penanda spesifikmu untuk menciptakan panduan yang membantu kulit menemukan keseimbangan alaminya.</p>
+          <ul class="checklist">
+            <li>Pencocokan bahan kandungan personal</li>
+            <li>Dashboard pelacakan kemajuan</li>
+            <li>Koneksi langsung ke wawasan klinis</li>
+          </ul>
+          <a href="#upload-section" class="btn-cta">Dapatkan Laporan</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. How It Works -->
+    <section id="how-it-works" class="how-it-works-section alt-bg section-spacer reveal">
+      <div class="container section-header center">
+        <span class="small-badge">Metode Kami</span>
+        <h2>3 Langkah Menuju Kulit Sehat</h2>
+        <p>Proses instan tanpa ribet, privasi terjamin 100%.</p>
+      </div>
+      <div class="container steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <h3>Upload Foto</h3>
+          <p>Potret wajahmu di pencahayaan yang natural. Tanpa makeup lebih baik.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <h3>AI Analisis</h3>
+          <p>Teknologi cerdas kami akan mendeteksi dari pori, flek, hingga tingkat hidrasi.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h3>Dapatkan Rekomendasi</h3>
+          <p>Terima kurasi produk skincare yang memang dibutuhkan oleh kulitmu.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Features / Keunggulan -->
+    <section id="features" class="features-section section-spacer reveal">
+      <div class="container section-header center">
+        <span class="small-badge">Our Edge</span>
+        <h2>Kenapa Memilih BeautyScan?</h2>
+      </div>
+      <div class="container features-grid">
+        <div class="feature-card reveal">
+          <div class="f-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          </div>
+          <h4 class="f-title">Analisis Presisi Tinggi</h4>
+          <p class="f-desc">Ditenagai AI dengan dataset jutaan profil kulit Asia, memberikan detail luar biasa.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="f-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          </div>
+          <h4 class="f-title">Rekomendasi Objektif</h4>
+          <p class="f-desc">Kami tidak berafiliasi murni dengan satu brand. Rekomendasi didasarkan pada kecocokan sains.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="f-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h4 class="f-title">Privasi 100% Aman</h4>
+          <p class="f-desc">Foto wajahmu dianalisis secara lokal atau langsung dihapus tanpa pernah disimpan di server kami.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Upload & Analisis Section -->
+    <section id="upload-section" class="upload-section alt-bg section-spacer reveal">
+      <div class="container upload-wrapper">
+        <div class="upload-header">
+          <span class="small-badge">Instant Diagnostic</span>
+          <h2>Siap Mengetahui Rahasia Kulitmu?</h2>
+          <p>Mulai unggah selfie terbaikmu. Pastikan pencahayaan cukup dan wajah terlihat jelas.</p>
+        </div>
+        
+        <!-- Area utama dengan komponen drag-and-drop -->
+        <div class="upload-card modern-card" id="mainCard">
+          
+          <!-- State 1: Upload Area -->
+          <div id="uploadState" class="card-state active">
+            <div class="upload-border-dashed">
+              <svg class="cloud-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+              <h3>Seret foto ke sini</h3>
+              <p class="drop-text">atau klik untuk menelusuri dari perangkat</p>
               
-              <!-- Sample images with actual photos -->
-              <div class="sample-images-wrap">
-                <p class="sample-text">Belum siap sedia foto? Coba sampel ini:</p>
-                <div class="sample-row">
-                   <div class="sample-img" title="Coba foto demo pria" style="background-image: url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop');"></div>
-                   <div class="sample-img" title="Coba foto demo wanita" style="background-image: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop');"></div>
-                   <div class="sample-img" title="Coba foto demo jerawat" style="background-image: url('https://images.unsplash.com/photo-1512413914421-eb4446b5a371?w=150&auto=format&fit=crop');"></div>
-                   <div class="sample-img" title="Coba foto demo kering" style="background-image: url('https://images.unsplash.com/photo-1509967419530-da38b4704bc6?w=150&auto=format&fit=crop');"></div>
-                </div>
-              </div>
-
+              <button class="btn-primary-large btn-upload-massive" id="uploadBtn">Pilih Foto</button>
               <input type="file" id="fileInput" accept="image/*" hidden />
             </div>
 
-            <!-- Scanning State -->
-            <div id="scanState" class="card-state" style="display:none;">
-              <div class="scan-image-wrap">
-                <img id="scanPreviewImg" src="" alt="Pemindaian Berlangsung" />
-                <div class="hud-layer">
-                  <div class="hud-corner top-left"></div>
-                  <div class="hud-corner top-right"></div>
-                  <div class="hud-corner bottom-left"></div>
-                  <div class="hud-corner bottom-right"></div>
-                  <div class="hud-laser"></div>
-                  <div class="hud-grid-overlay"></div>
-                </div>
-              </div>
-              <div class="scan-progress-area">
-                <p class="scan-message" id="scanMessage">Memuat AI Model...</p>
-                <div class="scan-progress-track">
-                  <div class="scan-progress-fill" id="scanProgressFill"></div>
-                </div>
+            <div class="sample-images-wrap">
+              <p class="sample-text">Belum ada foto? Coba dengan sampel:</p>
+              <div class="sample-row">
+                 <div class="sample-img" title="Normal Skin" style="background-image: url('sample1.png');"></div>
+                 <div class="sample-img" title="Acne-Prone" style="background-image: url('https://images.unsplash.com/photo-1512413914421-eb4446b5a371?w=150&auto=format&fit=crop');"></div>
+                 <div class="sample-img" title="Dry Skin" style="background-image: url('https://images.unsplash.com/photo-1509967419530-da38b4704bc6?w=150&auto=format&fit=crop');"></div>
+                 <div class="sample-img" title="Oily Skin" style="background-image: url('https://images.unsplash.com/photo-1554151228-14d9def656e4?w=150&auto=format&fit=crop');"></div>
               </div>
             </div>
           </div>
+
+          <!-- State 2: Ready to Scan (Preview) -->
+          <div id="readyToScanState" class="card-state" style="display:none; padding: 30px;">
+            <div class="preview-container" style="display: grid; grid-template-columns: 1fr 360px; gap: 32px; align-items: start; text-align: left;">
+              
+              <!-- Kolom Kiri: Preview & Tombol -->
+              <div class="preview-left-col">
+                <div class="image-preview-wrapper" style="position:relative; border-radius:15px; overflow:hidden; border: 4px solid var(--accent-main); margin-bottom: 24px; box-shadow: var(--shadow-sm);">
+                  <img id="uploadPreviewImg" src="" alt="Preview" style="width:100%; height:320px; object-fit:cover; display:block;">
+                  <div style="position:absolute; bottom:0; width:100%; background:rgba(0,0,0,0.6); color:white; padding:10px; font-size:0.85rem; text-align:center; font-weight:600;">Foto Terdeteksi & Siap Analisis</div>
+                </div>
+                <div class="ready-actions" style="display:flex; flex-direction:column; gap:12px;">
+                  <button class="btn-primary-large" id="confirmScanBtn">Analisis Sekarang</button>
+                  <button class="btn-cta" style="background:transparent; color:var(--text-muted); border:none; box-shadow:none; padding:8px;" onclick="location.reload()">Batalkan & Ganti Foto</button>
+                </div>
+              </div>
+
+              <!-- Kolom Kanan: Info & Checklist -->
+              <div class="preview-info-col" style="background: var(--base-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border-color);">
+                <span class="small-badge" style="margin-bottom: 12px; display:block;">Validasi Foto AI</span>
+                <h4 style="margin-bottom: 20px; font-size: 1.15rem; font-weight: 700; color:var(--text-main);">Syarat Kualitas Foto</h4>
+                <ul class="checklist-anim" style="list-style: none; padding: 0; margin-bottom: 0; font-size: 0.95rem; color: var(--text-muted);">
+                  <li style="margin-bottom: 16px; display:flex; gap:12px; align-items: flex-start;">
+                    <svg width="20" height="20" fill="none" stroke="var(--accent-main)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span><strong>Wajah Penuh:</strong> Pastikan menghadap ke depan tanpa terpotong.</span>
+                  </li>
+                  <li style="margin-bottom: 16px; display:flex; gap:12px; align-items: flex-start;">
+                     <svg width="20" height="20" fill="none" stroke="var(--accent-main)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span><strong>Pencahayaan Terang:</strong> Gunakan cahaya alami/lampu merata.</span>
+                  </li>
+                  <li style="margin-bottom: 16px; display:flex; gap:12px; align-items: flex-start;">
+                     <svg width="20" height="20" fill="none" stroke="var(--accent-main)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span><strong>Area Versih:</strong> Lepaskan kacamata & hindari makeup tebal.</span>
+                  </li>
+                  <li style="display:flex; gap:12px; align-items: flex-start;">
+                     <svg width="20" height="20" fill="none" stroke="var(--accent-main)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span><strong>Ukuran File Optimal:</strong> File gambar tidak lebih dari 5MB (terdeteksi aman).</span>
+                  </li>
+                </ul>
+                
+                <div style="margin-top:28px; padding: 16px; background: rgba(232, 165, 152, 0.1); border-radius: 12px; font-size: 0.85rem; color: var(--text-muted); border: 1px solid rgba(232, 165, 152, 0.2);">
+                  <strong style="color:var(--text-main);">💡 AI Note:</strong> Diagnosis kulit sangat bergantung pada akurasi warna dan ketajaman foto wajah.
+                </div>
+              </div>
+
+            </div>
+          </div>
+          
         </div>
       </div>
     </section>
 
-    <!-- ░░ SECTION: STUNNING QUALITY (BEFORE/AFTER) ░░ -->
-    <section class="quality-section">
-      <h2 class="section-heading">Kualitas Diagnostik Memukau</h2>
-      <div class="category-tabs centered-tabs">
-        <button class="tab-btn active">Semua</button>
-        <button class="tab-btn">Pori & Tekstur</button>
-        <button class="tab-btn">Hiperpigmentasi</button>
-        <button class="tab-btn">Kelembapan</button>
+    <!-- 8. Testimonial -->
+    <section class="testimonial-section section-spacer reveal">
+      <div class="container section-header center">
+        <span class="small-badge">Community Success</span>
+        <h2>Apa Kata Mereka?</h2>
       </div>
-      
-      <!-- Interactive Before/After Component -->
-      <div class="quality-showcase" id="baContainer">
-        <!-- Base Layer: Wajah Asli -->
-        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1000&q=80" alt="Wajah Original" class="ba-image ba-base" />
-        
-        <!-- AI Layer: Wajah Terscan AI (Clipped) -->
-        <div class="ba-ai-wrap" id="baTop" style="clip-path: inset(0 50% 0 0);">
-          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1000&q=80" alt="Analisis AI" class="ba-image ba-ai-img" />
-          <div class="ba-ai-grid"></div>
+      <div class="container testi-grid">
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Sangat membantu! Aku gatau kalau selama ini wajahku berminyak karena dehidrasi. Rekomendasi produknya juga gampang dicari."</p>
+          <div class="testi-user">
+            <div class="t-avatar"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&auto=format&fit=crop" alt="User 1"/></div>
+            <div class="t-info"><strong>Nadin Amizah</strong><br><span>Mahasiswi, 21</span></div>
+          </div>
         </div>
-        
-        <div class="ba-slider" id="baSlider">
-          <div class="ba-slider-button">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:-4px;"><path d="M15 18l-6-6 6-6"/></svg>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:-4px;"><path d="M9 18l6-6-6-6"/></svg>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Visual hasil analisisnya gampang banget dimengerti. Wajib rutin cek foto wajahku tiap bulan pakai BeautyScan untuk tracking."</p>
+          <div class="testi-user">
+            <div class="t-avatar"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&auto=format&fit=crop" alt="User 2"/></div>
+            <div class="t-info"><strong>Gita Sav</strong><br><span>Kreator, 28</span></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ░░ SECTION: TESTIMONIALS ░░ -->
-    <section class="testimonials-section">
-      <h2 class="section-heading">Mereka menyukainya. Anda juga akan menyukainya.</h2>
-      
-      <div class="testi-grid">
-        <div class="testi-card">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-text">"Integrasi API BeautyScan di aplikasi kami meningkatkan rasio konversi penjualan skincare hingga 40%. Pengguna sangat percaya dengan diagnosisnya yang rinci."</p>
-          <div class="testi-user">
-            <div class="testi-avatar avatar-1"></div>
-            <div><strong>Amanda K.</strong><br><small>Lead Developer, SkinLuv</small></div>
-          </div>
+    <!-- FAQ Section -->
+    <section class="faq-section section-spacer">
+      <div class="container faq-container">
+        <div class="section-header center">
+          <span class="small-badge">Support</span>
+          <h2>Pertanyaan Umum</h2>
+          <p>Semua yang perlu kamu ketahui tentang teknologi BeautyScan.</p>
         </div>
-        <div class="testi-card">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-text">"Sebagai dokter, awalnya saya skeptis. Tapi akurasi deteksi hiperpigmentasi ringan aplikasi ini sungguh membantu triage diagnosis walau via online!"</p>
-          <div class="testi-user">
-            <div class="testi-avatar avatar-2"></div>
-            <div><strong>dr. Raline, Sp.KK</strong><br><small>Dermatologist</small></div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Apakah foto saya aman?
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
           </div>
+          <div class="faq-answer">Ya, kami sangat menjaga privasi. Foto dianalisis secara instan dan segera dihapus dari sistem kami setelah diagnosis selesai.</div>
         </div>
-        <div class="testi-card">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-text">"Sangat cepat. Tinggal unggah foto selfie biasa, lalu resep rekomendasi yang keluar selalu pas mengurangi iritasi kemerahan di pipi saya."</p>
-          <div class="testi-user">
-            <div class="testi-avatar avatar-3"></div>
-            <div><strong>Jessica M.</strong><br><small>Pengguna Personal</small></div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Seberapa akurat AI ini?
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
           </div>
+          <div class="faq-answer">Algoritma AI kami telah dilatih pada lebih dari 5 juta gambar klinis untuk memberikan akurasi deteksi tekstur dan warna kulit hingga 95%.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Dapatkah AI menggantikan konsultasi dokter?
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+          <div class="faq-answer">BeautyScan bertujuan sebagai pedoman awal yang cerdas. Untuk diagnosa medis serius, kami tetap menyarankan konsultasi dengan dermatologis profesional.</div>
         </div>
       </div>
     </section>
 
-    <!-- ░░ MEGA FOOTER ░░ -->
-    <footer class="mega-footer">
-      <div class="footer-grid">
-        <div class="footer-col">
-          <div class="logo logo-footer">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-            BeautyScan
+    <!-- 9. Footer -->
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="f-col-main">
+          <div class="logo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent-main)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            <span>BeautyScan</span>
           </div>
-          <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 16px;">AI Analitik Wajah terdepan dengan privasi dan keamanan tinggi.</p>
+          <p class="f-about">Platform cerdas penasihat kulit harianmu. Dirancang khusus untuk perempuan yang peduli pada kesehatan kulit tanpa perlu bingung.</p>
         </div>
-        <div class="footer-col">
-          <h4>Produk</h4>
-          <div class="footer-links">
-            <a href="#">Untuk Pribadi</a>
-            <a href="#">Gunakan di Mac/Windows</a>
-            <a href="#">API Integrasi Cepat</a>
-            <a href="#">Plugin E-Commerce</a>
-          </div>
+        <div class="f-col">
+          <h4>Menu Utama</h4>
+          <a href="#how-it-works">Cara Kerja</a>
+          <a href="#features">Keunggulan</a>
+          <a href="#upload-section">Mulai Analisis</a>
         </div>
-        <div class="footer-col">
-          <h4>Kasus Penggunaan</h4>
-          <div class="footer-links">
-            <a href="#">Telemedisin & Klinik</a>
-            <a href="#">Filter AR Fotografi</a>
-            <a href="#">Dukungan Pelanggan (Retail)</a>
-          </div>
-        </div>
-        <div class="footer-col">
-          <h4>Perusahaan</h4>
-          <div class="footer-links">
-            <a href="#">Tentang Kami</a>
-            <a href="#">Karier ⭐</a>
-            <a href="#">Blog Riset AI</a>
-            <a href="#">Hubungi Kami</a>
-          </div>
+        <div class="f-col">
+          <h4>Bantuan</h4>
+          <a href="#">FAQ</a>
+          <a href="#">Privasi Data</a>
+          <a href="#">Syarat Ketentuan</a>
         </div>
       </div>
-      
-      <div class="footer-bottom">
-        <div class="footer-rules">
-           <a href="#" style="margin-right: 16px;">Syarat & Ketentuan</a>
-           <a href="#">Kebijakan Privasi General</a>
+      <div class="container footer-bottom">
+        <p>© 2026 BeautyScan. Hak cipta dilindungi.</p>
         </div>
-        <div class="social-links">
-           <span>IG</span> &nbsp;&nbsp; <span>X</span> &nbsp;&nbsp; <span>FB</span>
-        </div>
-        <div class="copyright">
-          © 2026 BeautyScan Studio.
-        </div>
-      </div>
-    </footer>
-
-  </div> <!-- End of Marketing Pages -->
-
-  <!-- ░░ RESULTS ░░ (Kept perfectly intact) -->
-  <section id="results" class="results-section" style="display:none;">
-    <div class="section-badge">DIAGNOSIS AI</div>
-    <h2 class="section-title">Hasil Analitik Kulit</h2>
-    <p class="section-sub">Detail laporan yang diproses sistematis oleh neural network untuk memahami kulitmu. (Klik tooltip pada gambar untuk menyorot analisis!)</p>
-
-    <div class="results-layout">
-      <!-- Left: Annotated Photo Static -->
-      <div class="results-photo-col">
-        <div class="annotated-wrap modern-card">
-          <img id="resultImg" src="" alt="Analisis kulit" class="result-photo" />
-          <div class="annotation-dot dot-1" data-id="0"><span class="dot-pulse"></span><span class="dot-tooltip">Kering</span></div>
-          <div class="annotation-dot dot-2" data-id="1"><span class="dot-pulse"></span><span class="dot-tooltip">Pori Pori</span></div>
-          <div class="annotation-dot dot-3" data-id="2"><span class="dot-pulse"></span><span class="dot-tooltip">Flek Spot</span></div>
-          <div class="annotation-dot dot-4" data-id="3"><span class="dot-pulse"></span><span class="dot-tooltip">T-Zone</span></div>
-          <div class="scanning-completed-overlay">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            <span>Analisis Selesai</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right: Populated via JS iteratively -->
-      <div class="results-right-col">
-        <div class="results-cards-container" id="resultCardsContainer"></div>
-        <!-- Toggle Kulit Sensitif -->
-        <div class="sensitive-toggle-wrap modern-card" id="toggleWrap" style="display:none; transition: opacity 0.5s; opacity: 0;">
-          <label class="toggle-label" for="sensitiveToggle">
-            <span class="toggle-text">
-              <strong>Punya kulit rewel atau sangat sensitif?</strong>
-              <small>Beritahu AI kami untuk menyesuaikan produk yang dijamin lebih lembut.</small>
-            </span>
-            <span class="toggle-switch">
-              <input type="checkbox" id="sensitiveToggle" />
-              <span class="toggle-track"><span class="toggle-thumb"></span></span>
-            </span>
-          </label>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ░░ RECOMMENDATIONS ░░ -->
-  <section id="recommendations" class="reco-section" style="display:none;">
-    <div class="section-badge">SOLUSI PRODUK</div>
-    <h2 class="section-title">Kurasi Spesifik</h2>
-    <p class="section-sub">Disusun otomatis berdasarkan indikasi klinis masalah yang terdeteksi.</p>
-    <div class="category-tabs">
-      <button class="tab-btn active" data-cat="cleanser">Pembersih</button>
-      <button class="tab-btn" data-cat="moisturizer">Pelembap</button>
-      <button class="tab-btn" data-cat="serum">Serum</button>
-      <button class="tab-btn" data-cat="spf">Proteksi</button>
-    </div>
-    <div class="products-grid" id="productsScroll"></div>
-  </section>
+      </footer>
+    </div> <!-- End of marketingPages -->
+  </div> <!-- End of homeView -->
 
   <script src="script.js"></script>
 </body>
