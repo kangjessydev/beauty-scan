@@ -33,12 +33,16 @@
         <nav class="nav-links">
           <a href="#science">Sains</a>
           <a href="#how-it-works">Cara Kerja</a>
-          <a href="#advantages">Keunggulan</a>
+          <a href="dashboard.html">Misi Koin</a>
           <a href="#faq">FAQ</a>
         </nav>
 
         <div class="nav-actions">
-          <a href="#upload-section" class="btn-cta">Coba Sekarang</a>
+          <div class="coin-badge" title="Saldo Koin Anda">
+            <span class="coin-icon">🪙</span>
+            <span class="userCoins">50</span>
+          </div>
+          <a href="dashboard.html" class="btn-cta">Dashboard</a>
           <button class="mobile-toggle" id="menuToggle">
             <span></span>
             <span></span>
@@ -54,7 +58,7 @@
       <a href="#how-it-works" class="menu-link">Cara Kerja</a>
       <a href="#advantages" class="menu-link">Keunggulan</a>
       <a href="#faq" class="menu-link">FAQ</a>
-      <a href="#upload-section" class="btn-primary-large menu-link" style="text-align:center;">Mulai Analisis</a>
+      <a href="dashboard.html" class="btn-primary-large menu-link" style="text-align:center;">Mulai Analisis</a>
     </div>
 
   <!-- Bagian Marketing (Sembunyi saat hasil dirender) -->
@@ -365,6 +369,19 @@
       </footer>
     </div> <!-- End of marketingPages -->
   </div> <!-- End of homeView -->
+
+  <!-- Modal Component -->
+  <div class="modal-overlay" id="coinModal">
+    <div class="modal-card">
+      <span class="modal-icon">🪙</span>
+      <h3 id="modalTitle">Konfirmasi Koin</h3>
+      <p id="modalDesc">Analisis ini membutuhkan 10 Koin untuk diproses secara mendalam oleh sistem kami.</p>
+      <div class="modal-actions">
+        <button class="modal-btn-primary" id="modalConfirm">Lanjutkan Scan</button>
+        <button class="modal-btn-secondary" id="modalCancel">Nanti Dulu</button>
+      </div>
+    </div>
+  </div>
 
     <script>
       // Mobile Menu Logic

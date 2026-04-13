@@ -85,9 +85,66 @@ const getRecoSection    = () => document.getElementById('recommendations');
 const getProductsScroll = () => document.getElementById('productsScroll');
 const getTabBtns        = () => document.querySelectorAll('.tab-btn');
 
-let currentCategory = 'cleanser';
+// GLOBAL STATE & COINS
 let uploadedDataUrl = '';
-let isSampleImage   = false;
+let isSampleImage = false;
+
+// Coin Logic — Safe & Synced
+function getCoins() {
+  const val = localStorage.getItem('beautyCoins');
+  return val !== null ? parseInt(val) : 50;
+}
+
+let coins = getCoins();
+
+function updateCoinUI() {
+  coins = getCoins();
+  document.querySelectorAll('.userCoins').forEach(el => {
+    el.textContent = coins;
+  });
+}
+
+function setCoins(newVal) {
+  coins = newVal;
+  localStorage.setItem('beautyCoins', coins);
+  updateCoinUI();
+}
+
+// Initial Sync
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', updateCoinUI);
+} else {
+  updateCoinUI();
+}
+
+// Sync across tabs
+window.addEventListener('storage', (e) => {
+  if (e.key === 'beautyCoins') updateCoinUI();
+});
+
+
+function showCoinModal(onConfirm) {
+  const modal = document.getElementById('coinModal');
+  if(!modal) { onConfirm(); return; } // Fallback if no modal on this page
+  
+  modal.classList.add('active');
+  const confirmBtn = document.getElementById('modalConfirm');
+  const cancelBtn = document.getElementById('modalCancel');
+
+  const onOk = () => {
+    modal.classList.remove('active');
+    confirmBtn.removeEventListener('click', onOk);
+    onConfirm();
+  };
+  const onNo = () => {
+    modal.classList.remove('active');
+    cancelBtn.removeEventListener('click', onNo);
+  };
+
+  confirmBtn.addEventListener('click', onOk);
+  cancelBtn.addEventListener('click', onNo);
+}
+
 let isSensitive     = false;
 
 // ── FILE HANDLING & STORAGE ──────────────────────────────
@@ -164,7 +221,26 @@ async function proceedToScan() {
 }
 
 if (confirmScanBtn) {
-  confirmScanBtn.addEventListener('click', proceedToScan);
+  confirmScanBtn.addEventListener('click', () => {
+    if (coins >= 10) {
+      showCoinModal(() => {
+        setCoins(coins - 10);
+        proceedToScan();
+      });
+    } else {
+      // Reuse modal for insufficient coins
+      const modal = document.getElementById('coinModal');
+      if(modal) {
+        document.getElementById('modalTitle').textContent = 'Koin Habis!';
+        document.getElementById('modalDesc').textContent = 'Yah, koin kamu tidak cukup. Selesaikan misi di Dashboard untuk dapat koin gratis atau tunggu besok!';
+        document.getElementById('modalConfirm').textContent = 'Ke Dashboard';
+        document.getElementById('modalConfirm').onclick = () => window.location.href = 'dashboard.html';
+        modal.classList.add('active');
+      } else {
+        alert('Koin kamu tidak cukup!');
+      }
+    }
+  });
 }
 
 if (uploadBtn) uploadBtn.addEventListener('click', () => fileInput.click());

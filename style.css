@@ -182,9 +182,26 @@ a { text-decoration: none; color: inherit; transition: var(--transition); }
 .nav-links { display: flex; gap: 40px; font-weight: 600; font-size: 0.9rem; color: var(--text-muted); }
 .nav-links a { transition: all 0.3s ease; }
 .nav-links a:hover { color: var(--accent-main); }
-.nav-actions { display: flex; align-items: center; gap: 15px; }
+.nav-actions { display: flex; align-items: center; gap: 20px; }
 
-/* Hamburger Menu Toggle */
+/* Coin Badge */
+.coin-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 184, 0, 0.1);
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  font-weight: 800;
+  color: #B8860B; /* Golden brown */
+  font-size: 0.95rem;
+  box-shadow: 0 4px 10px rgba(255, 184, 0, 0.05);
+  transition: all 0.3s ease;
+}
+.coin-badge:hover { transform: scale(1.05); background: rgba(255, 184, 0, 0.15); }
+.coin-icon { font-size: 1.1rem; }
+
 .mobile-toggle { 
   display: none; 
   background: transparent; 
@@ -1127,3 +1144,36 @@ a { text-decoration: none; color: inherit; transition: var(--transition); }
 .detail-row { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
 .detail-row strong { display: block; color: var(--text-main); font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
 
+
+/* ── MODAL POPUP ── */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(27, 59, 54, 0.4); backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center;
+  z-index: 5000; opacity: 0; transition: opacity 0.3s ease;
+}
+.modal-overlay.active { display: flex; opacity: 1; }
+
+.modal-card {
+  background: white; width: 100%; max-width: 420px;
+  padding: 40px; border-radius: 32px; text-align: center;
+  transform: translateY(20px); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+}
+.modal-overlay.active .modal-card { transform: translateY(0); }
+
+.modal-icon { font-size: 3rem; margin-bottom: 24px; display: block; }
+.modal-card h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; color: var(--text-main); }
+.modal-card p { color: var(--text-muted); line-height: 1.6; margin-bottom: 32px; }
+
+.modal-actions { display: flex; flex-direction: column; gap: 12px; }
+.modal-btn-primary { 
+  background: var(--accent-main); color: white; border: none; 
+  padding: 16px; border-radius: 100px; font-weight: 800; cursor: pointer;
+  transition: 0.3s;
+}
+.modal-btn-primary:hover { background: var(--accent-dark); transform: scale(1.02); }
+.modal-btn-secondary { 
+  background: transparent; color: var(--text-muted); border: none; 
+  padding: 10px; font-weight: 700; cursor: pointer;
+}

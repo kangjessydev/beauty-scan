@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#FEFBF7" />
+  <title>Dashboard Saya — BeautyScan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Dashboard specific overrides */
+    .dashboard-container { padding: 140px 0 80px; width: 90%; max-width: 1400px; margin: 0 auto; }
+    .dash-grid { display: grid; grid-template-columns: 320px 1fr; gap: 40px; }
+    .dash-sidebar { position: relative; top: 0; }
+    
+    /* Remove sticky header for dashboard as requested */
+    .app-header.active { position: absolute !important; }
+
+    .profile-card { 
+      background: white; 
+      padding: 40px; 
+      border-radius: 32px; 
+      border: 1px solid var(--border-color);
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .profile-avatar { width: 120px; height: 120px; border-radius: 50%; background: var(--accent-light); margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
+    
+    .dash-main { display: flex; flex-direction: column; gap: 40px; }
+    
+    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .stat-card { background: white; padding: 30px; border-radius: 24px; border: 1px solid var(--border-color); }
+    .stat-card h4 { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; font-weight: 700; letter-spacing: 0.05em; }
+    .stat-card .val { font-size: 2rem; font-weight: 800; color: var(--text-main); }
+    
+    .mission-list { background: white; padding: 40px; border-radius: 32px; border: 1px solid var(--border-color); }
+    .mission-item { 
+      display: flex; justify-content: space-between; align-items: center; padding: 24px; 
+      background: var(--base-bg); border-radius: 20px; margin-bottom: 16px; border: 1px solid transparent; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+    .mission-item:hover { transform: translateX(12px); background: white; border-color: var(--accent-main); box-shadow: var(--shadow-md); }
+    .m-info h5 { font-size: 1.1rem; margin-bottom: 6px; font-weight: 700; }
+    .m-info p { font-size: 0.9rem; color: var(--text-muted); }
+    .m-reward { background: rgba(255,184,0,0.15); color: #B8860B; padding: 8px 16px; border-radius: 100px; font-weight: 800; font-size: 0.85rem; border: 1px solid rgba(255,184,0,0.2); }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 1024px) {
+      .dash-grid { grid-template-columns: 1fr; }
+      .dash-sidebar { position: static; }
+      .stat-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .dashboard-container { padding-top: 40px; }
+      .mission-item { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .mission-list { padding: 25px; }
+      .stat-card { padding: 20px; }
+    }
+  </style>
+</head>
+<body class="page-fade-in">
+  <!-- Custom Cursor -->
+  <div class="cursor-ring"></div>
+  <div class="cursor-dot"></div>
+
+  <header class="app-header active">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent-main)" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <span>BeautyScan</span>
+      </a>
+      <div class="nav-actions">
+        <div class="coin-badge">
+          <span class="coin-icon">🪙</span>
+          <span class="userCoins">50</span>
+        </div>
+        <button class="mobile-toggle" id="menuToggle"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container dashboard-container">
+    <div class="dash-grid">
+      <aside class="dash-sidebar">
+        <div class="profile-card">
+          <div class="profile-avatar">✨</div>
+          <h3>Halo, Cantik!</h3>
+          <p style="color:var(--text-muted); font-size:0.9rem;">Member Sejak April 2026</p>
+          <hr style="margin:20px 0; opacity:0.1;">
+          <a href="index.html#upload-section" class="btn-primary-large" style="width:100%;">Mulai Scan Baru</a>
+        </div>
+      </aside>
+
+      <section class="dash-main">
+        <div class="stat-row">
+          <div class="stat-card">
+            <h4>Saldo Koin</h4>
+            <div class="val">🪙 <span class="userCoins">50</span></div>
+          </div>
+          <div class="stat-card">
+            <h4>Total Scan</h4>
+            <div class="val">0</div>
+          </div>
+          <div class="stat-card">
+            <h4>Health Score</h4>
+            <div class="val">--</div>
+          </div>
+        </div>
+
+        <div class="mission-list">
+          <h3>Kumpulkan Koin Gratis 🪙</h3>
+          <p style="margin-bottom:24px; color:var(--text-muted);">Selesaikan misi harian untuk terus pantau kesehatan kulitmu.</p>
+          
+          <div class="mission-item">
+            <div class="m-info">
+              <h5>Lengkapi Profil Kulit</h5>
+              <p>Beritahu kami jenis kulitmu untuk hasil lebih akurat.</p>
+            </div>
+            <div class="m-reward">+20 Koin</div>
+          </div>
+
+          <div class="mission-item">
+            <div class="m-info">
+              <h5>Cek Rutinitas Pagi</h5>
+              <p>Gunakan pembersih & sunscreen hari ini.</p>
+            </div>
+            <div class="m-reward">+5 Koin</div>
+          </div>
+
+          <div class="mission-item">
+            <div class="m-info">
+              <h5>Undang Sahabat</h5>
+              <p>Bantu temanmu mendapatkan kulit glowing.</p>
+            </div>
+            <div class="m-reward">+50 Koin</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
