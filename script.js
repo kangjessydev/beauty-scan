@@ -195,39 +195,55 @@ if (sampleImgs) {
   });
 }
 
-// ── SCAN FLOW ──────────────────────────────────────────────
-const SCAN_MSGS = [
-  'Memuat Sistem AI...',
-  'Memetakan tekstur & pori wajah...',
-  'Menganalisis tingkat hidrasi kulit...',
-  'Mendeteksi hiperpigmentasi & pigmen...',
-  'Mengukur sensitivitas area kulit...',
-  'Mempersiapkan laporan diagnosis...'
-];
-
 function startScan() {
-  let msgIdx = 0;
-  if (scanMessage) scanMessage.textContent = SCAN_MSGS[0];
+  const scanStatus = document.getElementById('scanStatus');
+  const scanProgress = document.getElementById('scanProgress');
+  const scanPercent = document.getElementById('scanPercent');
+  
+  const steps = [
+    document.getElementById('step-0'),
+    document.getElementById('step-1'),
+    document.getElementById('step-2'),
+    document.getElementById('step-3')
+  ];
 
-  const msgInt = setInterval(() => {
-    msgIdx = (msgIdx + 1) % SCAN_MSGS.length;
-    if (scanMessage) scanMessage.textContent = SCAN_MSGS[msgIdx];
-  }, 700);
-
-  const duration = 5000; // Ubah ke 5 detik sesuai request
+  const duration = 5000;
   const start = Date.now();
+  
   const progressInt = setInterval(() => {
     const elapsed = Date.now() - start;
     const pct = Math.min((elapsed / duration) * 100, 100);
-    if (scanProgressFill) scanProgressFill.style.width = pct + '%';
     
-    // Update persentase teks
-    const pctEl = document.getElementById('progressPct');
-    if (pctEl) pctEl.textContent = Math.floor(pct) + '%';
+    if (scanProgress) scanProgress.style.width = pct + '%';
+    if (scanPercent) scanPercent.textContent = Math.floor(pct) + '%';
+
+    // Update status message based on pct
+    if (scanStatus) {
+      if (pct < 25) scanStatus.textContent = 'Deteksi Struktur Wajah...';
+      else if (pct < 50) scanStatus.textContent = 'Analisis Tekstur & Pori...';
+      else if (pct < 75) scanStatus.textContent = 'Pemetaan Pigmentasi...';
+      else if (pct < 100) scanStatus.textContent = 'Klasifikasi Kondisi...';
+    }
+
+    // Update Milestones
+    const currentIdx = Math.floor(pct / 25);
+    steps.forEach((s, idx) => {
+      if (!s) return;
+      if (idx < currentIdx) {
+        s.classList.add('done');
+        s.classList.remove('active');
+      } else if (idx === currentIdx && pct < 100) {
+        s.classList.add('active');
+      }
+    });
 
     if (elapsed >= duration) {
       clearInterval(progressInt);
-      clearInterval(msgInt);
+      if (scanStatus) scanStatus.textContent = 'Analisis Selesai ✓';
+      if (steps[3]) {
+        steps[3].classList.add('done');
+        steps[3].classList.remove('active');
+      }
       finishScan();
     }
   }, 50);
@@ -471,7 +487,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const scanViewEl = document.getElementById('scanView');
   if (scanViewEl) {
     const savedImg = sessionStorage.getItem('scannedImage');
-    const scanImgEl = document.getElementById('scanPreviewImg');
+    const scanImgEl = document.getElementById('scanPreview'); // ID fixed
     if (savedImg && scanImgEl) {
       scanImgEl.src = savedImg;
     }

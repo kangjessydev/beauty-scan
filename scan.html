@@ -17,56 +17,50 @@
   <div class="cursor-ring"></div>
   <div class="cursor-dot"></div>
 
-  <div id="scanView" class="view-overlay" style="display: flex; position: relative; background: var(--base-bg);">
-    <div class="scan-fullscreen">
-      <div class="scan-layout-container">
-        
-        <!-- Left: Immersive Visual -->
-        <div class="scan-visual-pane">
-           <div class="scan-photo-frame">
-              <img id="scanPreviewImg" src="" alt="Foto yang dianalisis" />
-              <!-- Corner brackets -->
-              <div class="scan-corner tl"></div>
-              <div class="scan-corner tr"></div>
-              <div class="scan-corner bl"></div>
-              <div class="scan-corner br"></div>
-              <!-- Laser line -->
-              <div class="scan-laser-line" id="scanLaser"></div>
-              <!-- Grid overlay -->
-              <div class="scan-grid-overlay"></div>
-            </div>
+  <div id="scanView" class="scan-fullscreen">
+    <div class="scan-layout-container">
+      
+      <!-- Visual Pane -->
+      <div class="scan-visual-pane">
+        <div class="scan-photo-frame">
+          <img id="scanPreview" src="" alt="Scanning context" />
+          <div class="scan-laser"></div>
         </div>
-
-        <!-- Right: AI Dashboard -->
-        <div class="scan-dashboard-pane">
-          <div class="dashboard-header">
-             <span class="scan-live-badge">● Menganalisis Biologi</span>
-             <h2 id="scanMessage" class="scan-msg">Menghubungkan ke AI Engine...</h2>
-             <p class="scan-sub">Menganalisis 14 parameter biologi kulit Anda untuk akurasi diagnosis maksimal.</p>
-          </div>
-
-          <div class="dashboard-stats">
-            <div class="scan-progress-wrapper">
-              <div class="progress-info">
-                <span>Progress Analisis</span>
-                <span id="progressPct">0%</span>
-              </div>
-              <div class="scan-progress-track">
-                <div class="scan-progress-fill" id="scanProgressFill"></div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="dashboard-footer">
-            <p>Sistem AI BeautyScan memproses data secara lokal untuk keamanan privasi Anda.</p>
-          </div>
-        </div>
-
       </div>
+
+      <!-- Dashboard Pane -->
+      <div class="scan-dashboard-pane">
+        <div class="scan-live-badge">
+          <span class="badge-dot-live"></span>
+          Live Analysis
+        </div>
+        <h2 class="scan-msg" id="scanStatus">Menginisialisasi...</h2>
+        <p class="scan-sub">AI kami sedang memetakan profil biometrik Anda secara mendalam.</p>
+        
+        <div class="scan-progress-area">
+          <div class="progress-info">
+            <span>Progress Pemetaan</span>
+            <span id="scanPercent">0%</span>
+          </div>
+          <div class="scan-progress-track">
+            <div class="scan-progress-fill" id="scanProgress"></div>
+          </div>
+        </div>
+
+        <div class="analysis-steps">
+          <div class="step-item active" id="step-0"><div class="step-icon-check">1</div><span>Struktur Wajah</span></div>
+          <div class="step-item" id="step-1"><div class="step-icon-check">2</div><span>Tekstur & Pori</span></div>
+          <div class="step-item" id="step-2"><div class="step-icon-check">3</div><span>Pigmentasi</span></div>
+          <div class="step-item" id="step-3"><div class="step-icon-check">4</div><span>Klasifikasi</span></div>
+        </div>
+
+        <div class="dashboard-footer" style="margin-top: 40px; padding-top: 30px; border-top: 1px dashed var(--border-color); font-size: 0.8rem; color: var(--text-muted);">
+          <p>Sistem AI BeautyScan memproses data secara lokal untuk keamanan privasi Anda.</p>
+        </div>
+      </div>
+
     </div>
   </div>
-
-  <div class="scan-bg-decoration"></div>
 
   <script src="script.js"></script>
 </body>
